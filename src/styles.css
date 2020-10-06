@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background: rgb(231, 231, 231);
+}
+#listaRegistros h4 {
+  background: #0074F0;
+  color: #FFF;
+}
+
+#listaRegistros .card-subtitle {
+  border-bottom: 4px solid #0074F0;
+}
+
+/* Indicar que las alertas se mantengan ocultas */
+
+#formCliente .alert,
+#listaRegistros .alert {
+  display: none;
+}
+
+/* Mostrar solo las alertas que contengan la clase active */
+
+#formCliente .active,
+#listaRegistros .active {
+  display: block;
+}
+
+#listaRegistros .card-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.costoTotal {
+  border-top: 2px solid rgb(231, 231, 231);
+  font-size: 20px;
+  margin-top: .5em;
+  padding-top: .5em;
+}
+
+.costoTotal span {
+  color: #0074F0;
+}
+
+/* Colorear tablas */
+
+.table {
+  background: #FFF;
+}

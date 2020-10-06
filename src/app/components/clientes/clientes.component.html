@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <!-- Application -->
+  <div class="row pt-5">
+      <div id="formCliente" class="col-md-4">
+        <div class="alert alert-danger" role="alert">Debe rellenar todos los campos</div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Registrar cliente</h4>
+            </div>
+            <div id="product-form" class="card-body">
+                <div class="form-group">
+                    <input type="text" id="nombre" placeholder="Nombres del cliente" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="apellido" placeholder="Apellidos del cliente" class="form-control">
+              </div>
+                <div class="form-group">
+                    <input type="text" id="dui" placeholder="DUI del cliente" class="form-control">
+                </div>
+                <button id="enviar" class="btn btn-primary btn-block">Agregar cliente</button>
+              </div>
+        </div>
+      </div>
+      <div id="listaRegistros" class="col-md-8">
+        <h4 class="p-2 mb-2 text-center">Clientes</h4>
+        <div class="alert alert-success" role="alert">El cliente se agregó correctamente</div>
+      </div>
+  </div>
+</div>
