@@ -5,18 +5,21 @@
         <div class="card-body">
           <h1 class="text-center">LOGIN</h1>
           <hr class="mb-4">
-          <form class="text-center">
+          <div class="text-center">
             <div class="form-group">
-              <input class="form-control" type="text" placeholder="Ingrese email">
+              <input class="form-control" type="text" placeholder="Ingrese email" #userEmail required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="password" placeholder="Ingrese password">
+              <input class="form-control" type="password" placeholder="Ingrese password" #userPassword required>
             </div>
-            <button class="btn btn-primary mb-4 col-md-12">Ingresar</button>
+            <button class="btn btn-primary mb-4 col-md-12" (click)="authService.LogIn(userEmail.value, userPassword.value)">Ingresar</button>
 
             <p>O ingrese con:</p>
-            <button class="btn btn-outline-primary mb-3 col-md-6"><i class="lab la-google-plus-g"></i> Google</button>
-          </form>
+            <button class="btn btn-outline-primary mb-3 col-md-6" (click)="authService.GoogleAuth()"><i class="lab la-google-plus-g"></i> Google</button>
+
+            <p>¿No tiene una cuenta?</p>
+            <p><a href="/sign-up" class="mb-3">Regístrese aquí</a></p>
+          </div>
         </div>
       </div>
     </div>

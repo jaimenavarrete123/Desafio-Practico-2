@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center">REGISTRO</h1>
+          <hr class="mb-4">
+          <div class="text-center">
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Ingrese email" #userEmail required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="password" placeholder="Ingrese password" #userPass required>
+            </div>
+            <button class="btn btn-primary mb-4 col-md-12" (click)="authService.SignUp(userEmail.value, userPass.value)">Registrarse</button>
+
+            <p>¿Ya tiene una cuenta?</p>
+            <p><a href="/log-in" class="mb-3">Inicie sesión aquí</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
