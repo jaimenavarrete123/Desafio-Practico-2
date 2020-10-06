@@ -12,7 +12,7 @@ require("../conexion.php");
 $con = retornarConexion();
 
 
-mysqli_query($con, "
+$datos = mysqli_query($con, "
   INSERT INTO ticket (dui, vehiculo, servicio) VALUES ('$params->dui', '$params->vehiculo', '$params->servicio')
 ");
 
@@ -20,8 +20,14 @@ mysqli_query($con, "
 class Result {}
 
 $response = new Result();
-$response->resultado = 'OK';
-$response->mensaje = 'Ticket agregado';
+
+if($datos) {
+  $response->resultado = 'OK';
+  $response->mensaje = 'Ticket agregado correctamente';
+}
+else {
+  $response->resultado = 'ERROR';
+}
 
 header('Content-Type: application/json');
 

@@ -14,7 +14,7 @@ CREATE TABLE servicios (
 
 CREATE TABLE ticket (
   codigoTicket int AUTO_INCREMENT,
-  dui INT REFERENCES clientes(duiCliente),
+  dui varchar(20) REFERENCES clientes(duiCliente),
   vehiculo varchar(100),
   servicio INT REFERENCES servicios(codigoServicios),
   PRIMARY KEY (codigoTicket)

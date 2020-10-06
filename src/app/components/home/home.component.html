@@ -29,9 +29,25 @@
               </div>
         </div>
       </div>
+
       <div id="listaRegistros" class="col-md-8">
         <h4 class="p-2 mb-2 text-center">Tickets</h4>
-        <div class="alert alert-success" role="alert">El ticket se agregó correctamente</div>
+
+        <div *ngFor="let registro of registros" class="card mb-4">
+          <div class="card-body">
+            <div class="text-right">
+              <button class="btn btn-primary mr-2" (click)="seleccionarTicket(registro.codigoTicket)" title="Modificar ticket"><i class="las la-edit"></i></button>
+              <button class="btn btn-danger" (click)="eliminarTicket(registro.codigoTicket)" title="Eliminar ticket"><i class="las la-trash"></i></button>
+            </div>
+            <h5 class="card-title">Registro de visita </h5>
+            <h6 class="card-subtitle text-muted pb-3 mb-4">{{registro.nombreServicio}}</h6>
+
+            <p class="card-text"><span><strong>Cliente</strong>: {{registro.nombresCliente}} {{registro.apellidosCliente}}</span><span><strong>DUI</strong>: {{registro.dui}}</span></p>
+            <p class="card-text"><span><strong>Vehículo</strong>: {{registro.vehiculo}}</span></p>
+            <p class="card-text"><span><strong>Costo de reparación</strong>: ${{registro.costoServicio}}</span><span><strong>N° de visitas</strong>: {{registro.cantVisitas}}</span><span><strong>Descuento ({{registro.porcDescuento*100}}%)</strong>: ${{registro.descuento}}</span></p>
+            <p class="card-text costoTotal"><strong>COSTO TOTAL: <span>${{registro.costoTotal}}</span></strong></p>
+          </div>
+        </div>
       </div>
   </div>
 </div>

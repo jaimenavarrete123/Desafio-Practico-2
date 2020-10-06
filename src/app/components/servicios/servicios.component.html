@@ -35,6 +35,11 @@
           </thead>
           <tbody>
             <!-- Aqui se colocaran los registros de servicios -->
+            <tr *ngFor="let registro of registros">
+              <th scope="row">{{registro.codigoServicio}}</th>
+              <td>{{registro.nombreServicio}}</td>
+              <td>${{registro.costoServicio}}</td>
+            </tr>
           </tbody>
         </table>
       </div>

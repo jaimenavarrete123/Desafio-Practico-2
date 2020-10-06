@@ -20,11 +20,11 @@ export class TicketService {
   }
 
   eliminarTicket(id:number) {
-    return this.http.get(`${this.url}eliminarTicket.php?codigo=${id}`);
+    return this.http.get(`${this.url}eliminarTicket.php?codigoTicket=${id}`);
   }
 
   seleccionarTicket(id:number) {
-    return this.http.get(`${this.url}seleccionarTicket.php?id=${id}`);
+    return this.http.get(`${this.url}seleccionarTicket.php?codigoTicket=${id}`);
   }
 
   modificarTicket(ticket) {

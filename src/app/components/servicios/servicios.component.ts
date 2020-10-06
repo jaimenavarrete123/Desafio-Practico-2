@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from '../../services/servicios/servicios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-servicios',
@@ -27,7 +28,7 @@ export class ServiciosComponent implements OnInit {
         datos => {
           this.registros = null;
           this.registros = datos;
-          this.agregarRegistrosPantalla();
+
           resolve();
         }
       )
@@ -53,40 +54,11 @@ export class ServiciosComponent implements OnInit {
       });
     }
     else {
-      alert("Debe rellenar todos los campos");
+      Swal.fire(
+        "Error",
+        "Debe rellenar todos los campos",
+        'error'
+      )
     }
   }
-
-  // Esta funcion permite activar cualquier alerta que sea contenida por un elemento con el id
-  activarAlerta(id:string) {
-    let alerta:HTMLElement = document.querySelector(id + ' .alert');
-    alerta.classList.add('active');
-
-    setTimeout(() => {
-      alerta.classList.remove('active');
-    }, 2000);
-  }
-
-  agregarRegistrosPantalla() {
-    const tablaServicios = document.querySelector('#tablaServicios tbody'),
-          cantRegistros:number = this.registros.length;
-
-    tablaServicios.innerHTML = '';
-
-    for(let i = 0; i < cantRegistros; i++) {
-
-      // Creamos el card que representara al registro de cliente agregado
-      let registro = document.createElement('tr');
-
-      //Lo rellenamos con los elementos que acabamos de agregar y lo insertamos en la pagina
-      registro.innerHTML = `
-        <th scope="row">${this.registros[i].codigoServicio}</th>
-        <td>${this.registros[i].nombreServicio}</td>
-        <td>$${this.registros[i].costoServicio}</td>
-      `;
-
-      tablaServicios.appendChild(registro);
-    }
-  }
-
 }
