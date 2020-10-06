@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket/ticket.service';
 import { ServiciosService } from '../../services/servicios/servicios.service';
 import Swal from 'sweetalert2';
+import html2pdf from 'html2pdf.js';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -216,6 +218,82 @@ export class HomeComponent implements OnInit {
     });
 
     return promise;
+  }
+
+  descargarTicket(codigoTicket) {
+    Swal.fire({
+      title: '¿Desea descargar este ticket de servicio?',
+      text: 'Elija el tipo de archivo en el que desea descargar su ticket',
+      icon: 'question',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `Descargar PDF`,
+      denyButtonText: `Descargar TXT`,
+      cancelButtonText: `Cancelar`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.descargarTicketPDF(codigoTicket);
+      } else if (result.isDenied) {
+        this.descargarTicketTXT(codigoTicket);
+      }
+    })
+  }
+
+  descargarTicketPDF(codigoTicket) {
+    const elemento = document.getElementById(codigoTicket);
+
+    html2pdf().set({
+      filename: 'ticket ' + codigoTicket,
+      html2canvas: {
+        scale: 3,
+        letterRendering: true,
+      },
+      jsPDF: {
+        orientation: 'landscape'
+      }
+    })
+      .from(elemento)
+      .save()
+      .catch(err => {
+        Swal.fire(
+          'Resultado de la descarga',
+          'Hubo problemas al descargar el ticket: ' + err,
+          'error'
+        )
+      })
+  }
+
+  descargarTicketTXT(codigoTicket:string) {
+    let indice,
+        registro = this.registros.filter((ticket, index) => {
+          if(ticket.codigoTicket == codigoTicket) {
+            indice = index + 1;
+
+            return ticket;
+          }
+        });
+
+    console.log(registro);
+
+    var blob = new Blob([`
+    REGISTRO DE VISITA ${indice}
+    Servicio: ${registro[0].nombreServicio}
+
+    DUI: ${registro[0].dui}
+    Cliente: ${registro[0].nombresCliente} ${registro[0].apellidosCliente}
+
+    Vehiculo: ${registro[0].vehiculo}
+    Costo del servicio: $${registro[0].costoServicio}
+
+    Numero de visitas: ${registro[0].cantVisitas}
+    Porcentaje de descuento: ${registro[0].porcDescuento*100}%
+    Descuento: $${registro[0].descuento}
+
+    COSTO TOTAL: $${registro[0].costoTotal}
+    `],
+    {type: "text/plain; charset=utf8"});
+
+    saveAs(blob, `ticket_${indice}_${registro[0].nombresCliente}${registro[0].apellidosCliente}.txt`);
   }
 
   title = 'Desafio Practico 2 - Jaime Navarrete';

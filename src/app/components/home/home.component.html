@@ -33,9 +33,10 @@
       <div id="listaRegistros" class="col-md-8">
         <h4 class="p-2 mb-2 text-center">Tickets</h4>
 
-        <div *ngFor="let registro of registros" class="card mb-4">
+        <div *ngFor="let registro of registros" class="card mb-4" id="{{registro.codigoTicket}}">
           <div class="card-body">
             <div class="text-right">
+              <button class="btn btn-success mr-2" (click)="descargarTicket(registro.codigoTicket)" title="Descargar ticket"><i class="las la-download"></i></button>
               <button class="btn btn-primary mr-2" (click)="seleccionarTicket(registro.codigoTicket)" title="Modificar ticket"><i class="las la-edit"></i></button>
               <button class="btn btn-danger" (click)="eliminarTicket(registro.codigoTicket)" title="Eliminar ticket"><i class="las la-trash"></i></button>
             </div>

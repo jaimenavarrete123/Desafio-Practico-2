@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TicketService {
 
-  // url = 'https://lab-dps-jaimenavarrete.000webhostapp.com/DesafioPractico2/tickets/';
-  url = 'http://localhost:8080/desafio-practico-2-dps/desafiopractico2/src/API/tickets/';
+  url = 'https://lab-dps-jaimenavarrete.000webhostapp.com/DesafioPractico2/tickets/';
+  // url = 'http://localhost:8080/desafio-practico-2-dps/desafiopractico2/src/API/tickets/';
 
   constructor(private http: HttpClient) { }
 

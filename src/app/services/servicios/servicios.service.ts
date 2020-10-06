@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ServiciosService {
 
-  // url = 'https://lab-dps-jaimenavarrete.000webhostapp.com/DesafioPractico2/servicios/';
-  url = 'http://localhost:8080/desafio-practico-2-dps/desafiopractico2/src/API/servicios/';
+  url = 'https://lab-dps-jaimenavarrete.000webhostapp.com/DesafioPractico2/servicios/';
+  // url = 'http://localhost:8080/desafio-practico-2-dps/desafiopractico2/src/API/servicios/';
 
   constructor(private http: HttpClient) { }
 
