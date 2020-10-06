@@ -13,7 +13,7 @@ $con = retornarConexion();
 
 
 mysqli_query($con, "
-  INSERT INTO clientes (nombresCliente, apellidosCliente) VALUES ('$params->nombres', '$params->apellidos')
+  INSERT INTO clientes (duiCliente, nombresCliente, apellidosCliente) VALUES ('$params->duiCliente','$params->nombres', '$params->apellidos')
 ");
 
 class Result {}

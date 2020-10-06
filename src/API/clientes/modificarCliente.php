@@ -14,8 +14,8 @@ $con=retornarConexion();
 
 mysqli_query($con, "
   UPDATE clientes SET nombresCliente = '$params->nombres',
-                      apellidosCliente = $params->apellidos
-  WHERE codigoServicio = $params->codigoServicio
+                      apellidosCliente = '$params->apellidos'
+  WHERE duiCliente = '$params->duiCliente'
 ");
 
 

@@ -8,7 +8,7 @@ require("../conexion.php");
 $con = retornarConexion();
 
 mysqli_query($con, "
-  DELETE FROM clientes WHERE dui=$_GET[dui]
+  DELETE FROM clientes WHERE duiCliente=$_GET[duiCliente]
 ");
 
 class Result { }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientesService } from '../../services/clientes/clientes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-clientes',
@@ -11,7 +12,7 @@ export class ClientesComponent implements OnInit {
   registros = null;
 
   cliente = {
-    dui: null,
+    duiCliente: null,
     nombres: null,
     apellidos: null
   }
@@ -28,7 +29,7 @@ export class ClientesComponent implements OnInit {
         datos => {
           this.registros = null;
           this.registros = datos;
-          this.agregarRegistrosPantalla();
+
           resolve();
         }
       )
@@ -37,36 +38,128 @@ export class ClientesComponent implements OnInit {
     return promise;
   }
 
-  // Esta funcion permite activar cualquier alerta que sea contenida por un elemento con el id
-  activarAlerta(id:string) {
-    let alerta:HTMLElement = document.querySelector(id + ' .alert');
-    alerta.classList.add('active');
+  registrarCliente() {
+    let dui = document.getElementById('dui') as HTMLInputElement,
+        nombres = document.getElementById('nombres') as HTMLInputElement,
+        apellidos = document.getElementById('apellidos') as HTMLInputElement;
 
-    setTimeout(() => {
-      alerta.classList.remove('active');
-    }, 2000);
-  }
+    if(dui.value != '' && nombres.value != '' && apellidos.value != '') {
+      this.cliente.duiCliente = dui.value;
+      this.cliente.nombres = nombres.value;
+      this.cliente.apellidos = apellidos.value;
 
-  agregarRegistrosPantalla() {
-    const tablaClientes = document.querySelector('#tablaClientes tbody'),
-          cantRegistros:number = this.registros.length;
+      this.clienteServicio.registrarCliente(this.cliente).subscribe(datos => {
+        if(datos['resultado'] == 'OK') {
 
-    tablaClientes.innerHTML = '';
+          this.obtenerClientes();
 
-    for(let i = 0; i < cantRegistros; i++) {
+          Swal.fire(
+            'Resultado de la consulta',
+            datos['mensaje'],
+            'success'
+          )
 
-      // Creamos el card que representara al registro de cliente agregado
-      let registro = document.createElement('tr');
-
-      //Lo rellenamos con los elementos que acabamos de agregar y lo insertamos en la pagina
-      registro.innerHTML = `
-        <th scope="row">${this.registros[i].duiCliente}</th>
-        <td>${this.registros[i].nombresCliente}</td>
-        <td>${this.registros[i].apellidosCliente}</td>
-      `;
-
-      tablaClientes.appendChild(registro);
+          this.cliente = { duiCliente:null, nombres: null, apellidos: null };
+        }
+      });
+    }
+    else {
+      Swal.fire(
+        "Error",
+        "Debe rellenar todos los campos",
+        'error'
+      )
     }
   }
 
+  modificarCliente() {
+    let dui = document.getElementById('dui') as HTMLInputElement,
+        nombres = document.getElementById('nombres') as HTMLInputElement,
+        apellidos = document.getElementById('apellidos') as HTMLInputElement;
+
+    if(nombres.value != '' && apellidos.value != '') {
+      this.cliente.nombres = nombres.value;
+      this.cliente.apellidos = apellidos.value;
+
+      this.clienteServicio.modificarCliente(this.cliente).subscribe(datos => {
+        if(datos['resultado'] == 'OK') {
+
+          this.obtenerClientes();
+
+          Swal.fire(
+            'Resultado de la consulta',
+            datos['mensaje'],
+            'success'
+          )
+
+          this.cliente = { duiCliente:null, nombres: null, apellidos: null };
+
+          dui.disabled = false;
+          dui.value = '';
+          nombres.value = '';
+          apellidos.value = '';
+        }
+        else {
+          Swal.fire(
+            'Error!',
+            'Hubo problemas al modificar el cliente.',
+            'error'
+          )
+        }
+      });
+    }
+  }
+
+  eliminarCliente(duiCliente) {
+    Swal.fire({
+      title: 'Está seguro de eliminar al cliente?',
+      text: "Perderá todos los tickets que haya tenido este cliente. No podrá revertir esta acción!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, bórralo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clienteServicio.eliminarCliente(duiCliente).subscribe(datos => {
+          if(datos['resultado'] == 'OK') {
+
+            this.obtenerClientes();
+
+            Swal.fire(
+              'Resultado de la consulta',
+              datos['mensaje'],
+              'success'
+            )
+          }
+        });
+      }
+    })
+  }
+
+  seleccionarCliente(duiCliente) {
+    let dui = document.getElementById('dui') as HTMLInputElement,
+        nombres = document.getElementById('nombres') as HTMLInputElement,
+        apellidos = document.getElementById('apellidos') as HTMLInputElement;
+
+    let promise = new Promise((resolve, reject) => {
+      this.clienteServicio.seleccionarCliente(duiCliente).toPromise().then(
+        datos => {
+          this.cliente.duiCliente = datos[0].duiCliente;
+          this.cliente.nombres = datos[0].nombresCliente;
+          this.cliente.apellidos = datos[0].apellidosCliente;
+
+          dui.disabled = true;
+          dui.value = this.cliente.duiCliente;
+          nombres.value = this.cliente.nombres;
+          apellidos.value = this.cliente.apellidos;
+
+          resolve();
+        }
+      )
+    });
+
+    return promise;
+  }
 }

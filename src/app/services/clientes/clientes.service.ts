@@ -19,12 +19,12 @@ export class ClientesService {
     return this.http.post(`${this.url}registrarCliente.php`, JSON.stringify(cliente));
   }
 
-  eliminarCliente(id:number) {
-    return this.http.get(`${this.url}eliminarCliente.php?codigo=${id}`);
+  eliminarCliente(id:string) {
+    return this.http.get(`${this.url}eliminarCliente.php?duiCliente=${id}`);
   }
 
-  seleccionarCliente(id:number) {
-    return this.http.get(`${this.url}seleccionarCliente.php?id=${id}`);
+  seleccionarCliente(id:string) {
+    return this.http.get(`${this.url}seleccionarCliente.php?duiCliente=${id}`);
   }
 
   modificarCliente(cliente) {
