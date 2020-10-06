@@ -13,15 +13,14 @@ $con = retornarConexion();
 
 
 mysqli_query($con, "
-  INSERT INTO servicios (nombreServicio, costoServicio) VALUES ('$params->nombre', '$params->costo')
+  INSERT INTO clientes (nombresCliente, apellidosCliente) VALUES ('$params->nombres', '$params->apellidos')
 ");
-
 
 class Result {}
 
 $response = new Result();
 $response->resultado = 'OK';
-$response->mensaje = 'Servicio agregado';
+$response->mensaje = 'Cliente agregado correctamente';
 
 header('Content-Type: application/json');
 

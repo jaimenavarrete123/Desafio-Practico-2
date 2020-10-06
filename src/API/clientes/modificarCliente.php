@@ -1,28 +1,32 @@
 <?php
-  header('Access-Control-Allow-Origin: *');
-  header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-  $json = file_get_contents('php://input');
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-  $params = json_decode($json);
+$json = file_get_contents('php://input');
 
-  require("conexion.php");
-  $con=retornarConexion();
+$params = json_decode($json);
 
+require("../conexion.php");
 
-  mysqli_query($con,"update articulos set descripcion='$params->descripcion',
-                                          precio=$params->precio,
-                                          proveedor='$params->proveedor',
-                                          fabricante='$params->fabricante'
-                                          where codigo=$params->codigo");
+$con=retornarConexion();
 
 
-  class Result {}
+mysqli_query($con, "
+  UPDATE clientes SET nombresCliente = '$params->nombres',
+                      apellidosCliente = $params->apellidos
+  WHERE codigoServicio = $params->codigoServicio
+");
 
-  $response = new Result();
-  $response->resultado = 'OK';
-  $response->mensaje = 'datos modificados';
 
-  header('Content-Type: application/json');
-  echo json_encode($response);
+class Result {}
+
+$response = new Result();
+$response->resultado = 'OK';
+$response->mensaje = 'Datos del cliente, modificados correctamente';
+
+header('Content-Type: application/json');
+
+echo json_encode($response);
+
 ?>

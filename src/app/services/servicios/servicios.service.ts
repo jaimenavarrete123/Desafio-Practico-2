@@ -20,11 +20,11 @@ export class ServiciosService {
   }
 
   eliminarServicio(id:number) {
-    return this.http.get(`${this.url}eliminarServicio.php?codigo=${id}`);
+    return this.http.get(`${this.url}eliminarServicio.php?codigoServicio=${id}`);
   }
 
   seleccionarServicio(id:number) {
-    return this.http.get(`${this.url}seleccionarServicio.php?id=${id}`);
+    return this.http.get(`${this.url}seleccionarServicio.php?codigoServicio=${id}`);
   }
 
   modificarServicio(servicio) {

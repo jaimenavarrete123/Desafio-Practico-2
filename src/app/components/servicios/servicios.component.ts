@@ -12,6 +12,7 @@ export class ServiciosComponent implements OnInit {
   registros = null;
 
   servicio = {
+    codigoServicio: null,
     nombre: null,
     costo: null
   }
@@ -41,15 +42,22 @@ export class ServiciosComponent implements OnInit {
     let nombre = document.getElementById('nombre') as HTMLInputElement,
         costo = document.getElementById('costo') as HTMLInputElement;
 
-    if(nombre.value != '' && costo.value != '') {
+    if(nombre.value != '' && costo.value != '' && costo.value != '0') {
       this.servicio.nombre = nombre.value;
       this.servicio.costo = costo.value;
 
       this.servicioServicio.registrarServicio(this.servicio).subscribe(datos => {
         if(datos['resultado'] == 'OK') {
+
           this.obtenerServicios();
-          alert(datos['mensaje']);
-          this.servicio = {nombre: null, costo: null};
+
+          Swal.fire(
+            'Resultado de la consulta',
+            datos['mensaje'],
+            'success'
+          )
+
+          this.servicio = { codigoServicio:null, nombre: null, costo: null };
         }
       });
     }
@@ -60,5 +68,90 @@ export class ServiciosComponent implements OnInit {
         'error'
       )
     }
+  }
+
+  modificarServicio() {
+    let nombre = document.getElementById('nombre') as HTMLInputElement,
+        costo = document.getElementById('costo') as HTMLInputElement;
+
+    if(nombre.value != '' && costo.value != '0' && costo.value != '') {
+      this.servicio.nombre = nombre.value;
+      this.servicio.costo = costo.value;
+
+      this.servicioServicio.modificarServicio(this.servicio).subscribe(datos => {
+        if(datos['resultado'] == 'OK') {
+
+          this.obtenerServicios();
+
+          Swal.fire(
+            'Resultado de la consulta',
+            datos['mensaje'],
+            'success'
+          )
+
+          this.servicio = { codigoServicio:null , nombre: null, costo: null };
+
+          nombre.value = '';
+          costo.value = '0';
+        }
+        else {
+          Swal.fire(
+            'Error!',
+            'Hubo problemas al modificar el servicio.',
+            'error'
+          )
+        }
+      });
+    }
+  }
+
+  eliminarServicio(codigoServicio) {
+    Swal.fire({
+      title: 'Está seguro de eliminar el servicio?',
+      text: "Perderá todos los tickets con este servicio. No podrá revertir esta acción!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, bórralo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.servicioServicio.eliminarServicio(codigoServicio).subscribe(datos => {
+          if(datos['resultado'] == 'OK') {
+
+            this.obtenerServicios();
+
+            Swal.fire(
+              'Resultado de la consulta',
+              datos['mensaje'],
+              'success'
+            )
+          }
+        });
+      }
+    })
+  }
+
+  seleccionarServicio(codigoServicio) {
+    let nombre = document.getElementById('nombre') as HTMLInputElement,
+        costo = document.getElementById('costo') as HTMLInputElement;
+
+    let promise = new Promise((resolve, reject) => {
+      this.servicioServicio.seleccionarServicio(codigoServicio).toPromise().then(
+        datos => {
+          this.servicio.codigoServicio = datos[0].codigoServicio;
+          this.servicio.nombre = datos[0].nombreServicio;
+          this.servicio.costo = datos[0].costoServicio;
+
+          nombre.value = this.servicio.nombre;
+          costo.value = this.servicio.costo;
+
+          resolve();
+        }
+      )
+    });
+
+    return promise;
   }
 }

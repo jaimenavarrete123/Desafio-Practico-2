@@ -17,7 +17,9 @@
                 <div class="form-group">
                   <input type="number" id="costo" placeholder="Costo del servicio" class="form-control" min="0.01" step="0.01">
                 </div>
-                <button id="enviar" class="btn btn-primary btn-block" (click)="registrarServicio()">Agregar servicio</button>
+
+                <button *ngIf="servicio.codigoServicio == null" id="enviar" class="btn btn-primary btn-block" (click)="registrarServicio()">Agregar servicio</button>
+                <button *ngIf="servicio.codigoServicio != null" id="enviar" class="btn btn-primary btn-block" (click)="modificarServicio()">Modificar servicio</button>
               </div>
         </div>
       </div>
@@ -31,15 +33,22 @@
               <th scope="col">Codigo Servicio</th>
               <th scope="col">Nombre del servicio</th>
               <th scope="col">Costo del servicio</th>
+              <th scope="col">Opciones</th>
             </tr>
           </thead>
           <tbody>
+
             <!-- Aqui se colocaran los registros de servicios -->
             <tr *ngFor="let registro of registros">
               <th scope="row">{{registro.codigoServicio}}</th>
               <td>{{registro.nombreServicio}}</td>
               <td>${{registro.costoServicio}}</td>
+              <td>
+                <button class="btn btn-primary mr-2" (click)="seleccionarServicio(registro.codigoServicio)" title="Modificar servicio"><i class="las la-edit"></i></button>
+                <button class="btn btn-danger" (click)="eliminarServicio(registro.codigoServicio)" title="Eliminar servicio"><i class="las la-trash"></i></button>
+              </td>
             </tr>
+
           </tbody>
         </table>
       </div>
