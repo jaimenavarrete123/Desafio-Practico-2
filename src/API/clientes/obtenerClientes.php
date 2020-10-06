@@ -7,7 +7,7 @@ require("../conexion.php");
 $con = retornarConexion();
 
 $registros = mysqli_query($con, "
-  SELECT codigoServicio, nombreServicio, costoServicio FROM servicios
+  SELECT duiCliente, nombresCliente, apellidosCliente FROM clientes
 ");
 
 $vec=[];

@@ -19,7 +19,8 @@
                 </div>
                 <div class="form-group">
                   <select class="form-control" id="servicio">
-                    <option value="#">Seleccionar servicio</option>
+                    <option value="0">Seleccionar servicio</option>
+                    <option *ngFor="let servicio of servicios" value="{{servicio.codigoServicio}}">{{servicio.nombreServicio}}</option>
                   </select>
                 </div>
 

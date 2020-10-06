@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket/ticket.service';
+import { ServiciosService } from '../../services/servicios/servicios.service';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import { TicketService } from '../../services/ticket/ticket.service';
 export class HomeComponent implements OnInit {
 
   registros = null;
+  servicios = null;
 
   ticket = {
     dui: null,
@@ -16,10 +18,12 @@ export class HomeComponent implements OnInit {
     servicio: null
   }
 
-  constructor(private ticketServicio: TicketService) { }
+  constructor(private ticketServicio: TicketService, private servicioServicio: ServiciosService) { }
 
   ngOnInit() {
     this.obtenerTickets();
+
+    this.obtenerServicios();
   }
 
   obtenerTickets() {
@@ -29,6 +33,20 @@ export class HomeComponent implements OnInit {
           this.registros = null;
           this.registros = datos;
           this.agregarRegistrosPantalla();
+          resolve();
+        }
+      )
+    });
+
+    return promise;
+  }
+
+  obtenerServicios() {
+    let promise = new Promise((resolve, reject) => {
+      this.servicioServicio.obtenerServicios().toPromise().then(
+        datos => {
+          this.servicios = null;
+          this.servicios = datos;
           resolve();
         }
       )
@@ -49,7 +67,8 @@ export class HomeComponent implements OnInit {
 
       this.ticketServicio.registrarTicket(this.ticket).subscribe(datos => {
         if(datos['resultado'] == 'OK') {
-          this.agregarRegistrosPantalla();
+          this.obtenerTickets();
+
           alert(datos['mensaje']);
           this.ticket = {dui: null, vehiculo: null, servicio: null};
         }
@@ -96,9 +115,11 @@ export class HomeComponent implements OnInit {
     const listaRegistros:HTMLElement = document.getElementById('listaRegistros'),
           cantRegistros:number = this.registros.length;
 
+    listaRegistros.innerHTML = '';
+
     for(let i = 0; i < cantRegistros; i++) {
       // Comprobamos la cantidad de visitas que ha realizado el cliente
-      let comprobarVisitas:Array<Object> = this.registros.filter(cliente => cliente.dui == this.registros[i].dui),
+      let comprobarVisitas:Array<Object> = this.registros.filter((cliente, index) => cliente.dui == this.registros[i].dui && index <= i),
           cantVisitas:number = comprobarVisitas.length,
           porcDescuento:number,
           descuento:number,
