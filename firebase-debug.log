@@ -1,13 +1,13 @@
-[debug] [2020-10-03T00:37:35.634Z] ----------------------------------------------------------------------
-[debug] [2020-10-03T00:37:35.636Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\jaime\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2020-10-03T00:37:35.636Z] CLI Version:   8.11.2
-[debug] [2020-10-03T00:37:35.636Z] Platform:      win32
-[debug] [2020-10-03T00:37:35.636Z] Node Version:  v12.18.3
-[debug] [2020-10-03T00:37:35.637Z] Time:          Fri Oct 02 2020 18:37:35 GMT-0600 (GMT-06:00)
-[debug] [2020-10-03T00:37:35.637Z] ----------------------------------------------------------------------
-[debug] [2020-10-03T00:37:35.637Z] 
-[debug] [2020-10-03T00:37:35.645Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2020-10-03T00:37:35.646Z] > authorizing via signed-in user
+[debug] [2020-10-06T22:56:43.892Z] ----------------------------------------------------------------------
+[debug] [2020-10-06T22:56:43.893Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\jaime\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-10-06T22:56:43.893Z] CLI Version:   8.12.0
+[debug] [2020-10-06T22:56:43.893Z] Platform:      win32
+[debug] [2020-10-06T22:56:43.893Z] Node Version:  v12.18.3
+[debug] [2020-10-06T22:56:43.894Z] Time:          Tue Oct 06 2020 16:56:43 GMT-0600 (GMT-06:00)
+[debug] [2020-10-06T22:56:43.895Z] ----------------------------------------------------------------------
+[debug] [2020-10-06T22:56:43.895Z] 
+[debug] [2020-10-06T22:56:43.899Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-10-06T22:56:43.899Z] > authorizing via signed-in user
 [info] 
      ######## #### ########  ######## ########     ###     ######  ########
      ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
@@ -22,4 +22,5 @@ You're about to initialize a Firebase project in this directory:
 Before we get started, keep in mind:
 
   * You are currently outside your home directory
+  * You are initializing in an existing Firebase project directory
 

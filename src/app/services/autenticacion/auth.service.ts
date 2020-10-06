@@ -64,9 +64,9 @@ export class AuthService {
       })
   }
 
-  get isLoggedIn(): boolean {
+  isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : true;
+    return (user !== null) ? true : false;
   }
 
   GoogleAuth() {
