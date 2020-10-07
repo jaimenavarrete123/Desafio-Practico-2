@@ -2,13 +2,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <div class="navbar-brand">
-      <a href="#">
+      <a href="/home">
         Taller Don Alex
       </a>
     </div>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
         </li>
@@ -19,6 +19,32 @@
           <a class="nav-link" href="/servicios">Servicios</a>
         </li>
       </ul>
+
+      <form class="form-inline my-2 my-lg-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav user-nav">
+              <li class="nav-item">
+                <p>Saludos <strong>{{(authService.userData.displayName) ? authService.userData.displayName : 'usuario anónimo'}}</strong></p>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img class="align-self-start img-thumbnail rounded-circle user-image" src="{{(authService.userData.photoURL) ? authService.userData.photoURL : '/assets/userImage.png'}}">
+                </a>
+                <div class="dropdown-menu p-3" aria-labelledby="navbarDropdownMenuLink">
+                  <p>Su correo electrónico es:</p>
+                  <strong>{{authService.userData.email}}</strong>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="authService.SignOut()">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </form>
     </div>
   </div>
 </nav>
