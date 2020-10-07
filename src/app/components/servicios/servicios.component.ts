@@ -17,6 +17,9 @@ export class ServiciosComponent implements OnInit {
     costo: null
   }
 
+  registrosBusqueda = null;
+  busqueda = false;
+
   constructor(private servicioServicio: ServiciosService) { }
 
   ngOnInit() {
@@ -153,5 +156,47 @@ export class ServiciosComponent implements OnInit {
     });
 
     return promise;
+  }
+
+  realizarBusqueda() {
+    let texto = document.getElementById('textoBusqueda') as HTMLInputElement,
+        tipo = document.getElementById('tipoBusqueda') as HTMLInputElement;
+
+    if(texto.value != '' && parseInt(tipo.value, 10) != 0 && tipo.value != '') {
+      let registrosValidos = null,
+          textoMin = texto.value.toLowerCase();
+
+      switch(parseInt(tipo.value, 10)) {
+        case 1:
+          registrosValidos = this.registros.filter(ticket => ticket.codigoServicio == texto.value);
+          break;
+        case 2:
+          registrosValidos = this.registros.filter(ticket => ticket.nombreServicio.toLowerCase().includes(textoMin));
+          break;
+        case 3:
+          registrosValidos = this.registros.filter(ticket => ticket.costoServicio == texto.value);
+          break;
+      }
+
+      this.registrosBusqueda = null;
+      this.registrosBusqueda = registrosValidos;
+
+      this.busqueda = true;
+    }
+    else {
+      this.registrosBusqueda = null;
+      this.busqueda = false;
+    }
+  }
+
+  limpiarBusqueda() {
+    let texto = document.getElementById('textoBusqueda') as HTMLInputElement,
+        tipo = document.getElementById('tipoBusqueda') as HTMLInputElement;
+
+    this.registrosBusqueda = null;
+    this.busqueda = false;
+
+    texto.value = '';
+    tipo.value = '0';
   }
 }

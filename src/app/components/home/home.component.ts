@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
   registros = null;
   servicios = null;
 
+  busqueda = false;
+  registrosBusqueda = null;
+
   ticket = {
     codigoTicket: null,
     dui: null,
@@ -264,19 +267,17 @@ export class HomeComponent implements OnInit {
   }
 
   descargarTicketTXT(codigoTicket:string) {
-    let indice,
-        registro = this.registros.filter((ticket, index) => {
-          if(ticket.codigoTicket == codigoTicket) {
-            indice = index + 1;
+    let registro = this.registros.filter(ticket => {
+      if(ticket.codigoTicket == codigoTicket) {
+        return ticket;
+      }
+    });
 
-            return ticket;
-          }
-        });
 
     console.log(registro);
 
     var blob = new Blob([`
-    REGISTRO DE VISITA ${indice}
+    REGISTRO DE VISITA ${registro[0].codigoTicket}
     Servicio: ${registro[0].nombreServicio}
 
     DUI: ${registro[0].dui}
@@ -293,7 +294,52 @@ export class HomeComponent implements OnInit {
     `],
     {type: "text/plain; charset=utf8"});
 
-    saveAs(blob, `ticket_${indice}_${registro[0].nombresCliente}${registro[0].apellidosCliente}.txt`);
+    saveAs(blob, `ticket_${registro[0].codigoTicket}_${registro[0].nombresCliente}${registro[0].apellidosCliente}.txt`);
+  }
+
+  realizarBusqueda() {
+    let texto = document.getElementById('textoBusqueda') as HTMLInputElement,
+        tipo = document.getElementById('tipoBusqueda') as HTMLInputElement;
+
+    if(texto.value != '' && parseInt(tipo.value, 10) != 0 && tipo.value != '') {
+      let registrosValidos = null,
+          textoMin = texto.value.toLowerCase();
+
+      switch(parseInt(tipo.value, 10)) {
+        case 1:
+          registrosValidos = this.registros.filter(ticket => ticket.codigoTicket == texto.value);
+          break;
+        case 2:
+          registrosValidos = this.registros.filter(ticket => (ticket.nombresCliente.toLowerCase() + ' ' + ticket.apellidosCliente.toLowerCase()).includes(textoMin));
+          break;
+        case 3:
+          registrosValidos = this.registros.filter(ticket => ticket.dui == texto.value);
+          break;
+        case 4:
+          registrosValidos = this.registros.filter(ticket => ticket.nombreServicio.toLowerCase().includes(textoMin));
+          break;
+      }
+
+      this.registrosBusqueda = null;
+      this.registrosBusqueda = registrosValidos;
+
+      this.busqueda = true;
+    }
+    else {
+      this.registrosBusqueda = null;
+      this.busqueda = false;
+    }
+  }
+
+  limpiarBusqueda() {
+    let texto = document.getElementById('textoBusqueda') as HTMLInputElement,
+        tipo = document.getElementById('tipoBusqueda') as HTMLInputElement;
+
+    this.registrosBusqueda = null;
+    this.busqueda = false;
+
+    texto.value = '';
+    tipo.value = '0';
   }
 
   title = 'Desafio Practico 2 - Jaime Navarrete';
